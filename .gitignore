@@ -1,0 +1,13 @@
+# Arquivos de credenciais e segredos
+*.json
+mycreds.txt
+.streamlit/secrets.toml
+
+# Ambientes virtuais do Python
+.venv/
+venv/
+env/
+
+# Pastas de cache do Python
+__pycache__/
+*.pyc
