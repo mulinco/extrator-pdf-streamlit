@@ -1,6 +1,6 @@
 # 🚀 Extrator de Dados de PDF para Excel
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)]([](https://extrator-pdf-aero.streamlit.app/))
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://extrator-pdf-aero.streamlit.app/)
 
 ## 💡 A História por Trás do Projeto
 
