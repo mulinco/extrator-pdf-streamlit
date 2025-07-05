@@ -8,8 +8,6 @@ Este projeto nasceu de uma necessidade real: ajudar meu irmão em seu trabalho. 
 
 Para resolver isso, criei esta aplicação. O que antes era um dia de trabalho manual, agora é resolvido com um único clique, otimizando o tempo e eliminando o risco de erros humanos.
 
-![Demonstração da Aplicação](demonstracao.gif) 
-
 ```mermaid
 %% Diagrama de Fluxo para o projeto extrator-pdf-streamlit
 %% Versão Ultra Segura - Corrigido por Gemini
@@ -30,6 +28,8 @@ graph TD;
         G --Fim do Loop--> H;
     end
 ```
+
+![Demonstração da Aplicação](demonstracao.gif) 
 
 ## ✨ Funcionalidades
 
