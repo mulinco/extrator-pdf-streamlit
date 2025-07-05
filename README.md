@@ -12,21 +12,21 @@ Para resolver isso, criei esta aplicação. O que antes era um dia de trabalho m
 
 ```mermaid
 %% Diagrama de Fluxo para o projeto extrator-pdf-streamlit
-%% Corrigido por Gemini
+%% Versão Simplificada - Corrigido por Gemini
 
 graph TD;
     subgraph "Interface do Usuário (Navegador Web)"
-        A[▶️ Início: Usuário acessa a URL da aplicação] --> B["Clique em 'Faça o upload do seu arquivo'"];
+        A[Início: Usuário acessa a URL da aplicação] --> B["Clique em 'Faça o upload do seu arquivo'"];
         B --> C[/Upload do Arquivo PDF/];
         C --> D{Aguardando processamento...};
-        H --> I[✅ Fim: Visualiza o texto extraído <br/> de cada página em seções separadas];
+        H --> I[Fim: Visualiza o texto extraído <br/> de cada página em seções separadas];
     end
 
     subgraph "Backend da Aplicação (Servidor Streamlit)"
-        C --> E[1. app.py recebe o arquivo PDF];
-        E --> F["2. PyPDF2 abre o documento <br/> e conta o número de páginas"];
-        F --> G{3. Loop: Para cada página no PDF...};
-        G --Página N--> H[4. Extrai o texto e o exibe <br/> dentro de um `st.expander`];
+        C --> E[app.py recebe o arquivo PDF];
+        E --> F["PyPDF2 abre o documento <br/> e conta o número de páginas"];
+        F --> G{Loop: Para cada página no PDF...};
+        G --Página N--> H["Extrai o texto e o exibe <br/> dentro de um `st.expander`"];
         G --Fim do Loop--> H;
     end
 ```
