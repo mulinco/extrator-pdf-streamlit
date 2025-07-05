@@ -10,6 +10,35 @@ Para resolver isso, criei esta aplicação. O que antes era um dia de trabalho m
 
 ![Demonstração da Aplicação](demonstracao.gif) 
 
+```mermaid
+%% Diagrama de Fluxo para o projeto extrator-pdf-streamlit
+%% Criado por Gemini
+
+graph TD;
+    subgraph "Interface do Usuário (Navegador Web)"
+        A[▶️ Início: Usuário acessa a URL da aplicação] --> B["Clique em 'Faça o upload do seu arquivo'"];
+        B --> C[/Upload do Arquivo PDF/];
+        C --> D{Aguardando processamento...};
+        H --> I[✅ Fim: Visualiza o texto extraído <br/> de cada página em seções separadas];
+    end
+
+    subgraph "Backend da Aplicação (Servidor Streamlit)"
+        C --> E[1. app.py recebe o arquivo PDF];
+        E --> F["2. PyPDF2 abre o documento <br/> e conta o número de páginas"];
+        F --> G{3. Loop: Para cada página no PDF...};
+        G --Página N--> H[4. Extrai o texto e o exibe <br/> dentro de um `st.expander`];
+        G --Fim do Loop--> H;
+    end
+
+    %% Estilos para deixar mais claro
+    style A fill:#90ee90,stroke:#333,stroke-width:2px
+    style I fill:#90ee90,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style G fill:#ffcc99,stroke:#333,stroke-width:2px
+```
+
+
+
 ## ✨ Funcionalidades
 
 -   **Otimização de Tempo:** Transforma uma tarefa de um dia inteiro em um processo de segundos.
