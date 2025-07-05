@@ -8,7 +8,7 @@ Este projeto nasceu de uma necessidade real: ajudar meu irmão em seu trabalho. 
 
 Para resolver isso, criei esta aplicação. O que antes era um dia de trabalho manual, agora é resolvido com um único clique, otimizando o tempo e eliminando o risco de erros humanos.
 
-![Exemplo da Aplicação](https://i.imgur.com/your-image-url.png) 
+![Demonstração da Aplicação](demonstracao.gif) 
 
 ## ✨ Funcionalidades
 
