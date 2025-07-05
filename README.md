@@ -12,7 +12,7 @@ Para resolver isso, criei esta aplicação. O que antes era um dia de trabalho m
 
 ```mermaid
 %% Diagrama de Fluxo para o projeto extrator-pdf-streamlit
-%% Versão Simplificada - Corrigido por Gemini
+%% Versão Ultra Segura - Corrigido por Gemini
 
 graph TD;
     subgraph "Interface do Usuário (Navegador Web)"
@@ -26,7 +26,7 @@ graph TD;
         C --> E[app.py recebe o arquivo PDF];
         E --> F["PyPDF2 abre o documento <br/> e conta o número de páginas"];
         F --> G{Loop: Para cada página no PDF...};
-        G --Página N--> H["Extrai o texto e o exibe <br/> dentro de um `st.expander`"];
+        G --Página N--> H["Extrai o texto e o exibe <br/> dentro de um st.expander"];
         G --Fim do Loop--> H;
     end
 ```
