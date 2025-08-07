@@ -3,3 +3,4 @@ pandas
 PyMuPDF
 xlsxwriter
 google-auth
+requests
