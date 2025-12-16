@@ -13,30 +13,64 @@ Para resolver isso, desenvolvi esta aplicação Full Stack em Python. O que ante
 O projeto foi refatorado para seguir uma arquitetura modular e profissional, facilitando a manutenção e a escalabilidade. Abaixo está um diagrama que ilustra a estrutura da aplicação:
 
 ```mermaid
-graph TD;
-    subgraph "Frontend (Streamlit)"
-        A[Usuário Acessa] --> B{Login / Senha};
-        B -- Sucesso --> C[Menu Principal];
-        C -->|Aba 1| D[Extrator de D.I.];
-        C -->|Page 3| E[Fechamento Aeronave];
-        C -->|Aba Contato| F[Reportar Bug];
+graph TD
+    %% Estilos para ficar bonitão
+    classDef ui fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef logic fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef external fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
+
+    subgraph "Entrada"
+        User((Usuário)):::external
+        PDF[Arquivos PDF]:::external
     end
 
-    subgraph "Backend (Python Modules)"
-        D -->|Upload PDF| G[modules/pdf_extractor.py];
-        E -->|Upload PDF| G;
-        F -->|Mensagem| H[modules/telegram_bot.py];
+    subgraph "Frontend (Interface Visual)"
+        direction TB
+        App[app.py <br/> Gerenciador Principal]:::ui
+        
+        subgraph "Pasta: components"
+            TabProc[tab_processamento.py <br/> Aba Upload]:::ui
+            TabInst[tab_instrucoes.py]:::ui
+            TabCont[tab_contato.py]:::ui
+        end
+        
+        subgraph "Pasta: pages"
+            PageFech[3_fechamento_aeronave.py]:::ui
+        end
     end
 
-    subgraph "Processamento & Saída"
-        G -->|PyMuPDF + Regex| I{Extração de Dados};
-        I --> J[DataFrame Pandas];
-        J --> K[Download Excel .xlsx];
-        H --> L[API Telegram];
+    subgraph "Backend (Lógica de Negócios)"
+        Extractor[modules/pdf_extractor.py <br/> Core de Extração]:::logic
+        Bot[modules/telegram_bot.py]:::logic
     end
+
+    subgraph "Saída"
+        Excel[Relatório Excel .xlsx]:::external
+        TelegramAPI[API Telegram]:::external
+    end
+
+    %% Conexões do Fluxo Principal
+    User -->|Login| App
+    App -->|Renderiza| TabProc
+    App -->|Renderiza| TabInst
+    App -->|Renderiza| TabCont
+    User -->|Acessa Menu| PageFech
+
+    %% Fluxo de Dados (Upload)
+    PDF --> TabProc
+    PDF --> PageFech
+
+    %% Chamadas de Backend (Reutilização de Código)
+    TabProc -->|Importa e Usa| Extractor
+    PageFech -->|Importa e Usa| Extractor
+    TabCont -->|Importa e Usa| Bot
+
+    %% Processamento e Saída
+    Extractor -->|PyMuPDF + Regex| Excel
+    Bot -->|Requests| TelegramAPI
 ```
 
-![Demonstração da Aplicação](demonstracao.gif) 
+![Demonstração da Aplicação](assets/demonstracao.gif) 
 
 ## ✨ Funcionalidades Principais
 - 🔐 Controle de Acesso: Sistema de login simples via st.secrets para proteger a ferramenta.
