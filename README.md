@@ -4,96 +4,145 @@
 
 ## 💡 A História por Trás do Projeto
 
-Este projeto nasceu de uma necessidade real: ajudar meu irmão em seu trabalho. Uma de suas tarefas era extrair manualmente informações de centenas de Declarações de Importação em formato PDF e consolidá-las em uma única planilha, um processo repetitivo e cansativo que podia levar um dia inteiro de trabalho.
+Este projeto nasceu de uma necessidade real: ajudar meu irmão em seu trabalho na área de comércio exterior e logística. Uma de suas tarefas era extrair manualmente informações de centenas de Declarações de Importação e Fechamentos de Aeronaves em PDF para consolidá-las em planilhas. Um processo repetitivo que consumia dias inteiros.
 
-Para resolver isso, criei esta aplicação. O que antes era um dia de trabalho manual, agora é resolvido com um único clique, otimizando o tempo e eliminando o risco de erros humanos.
+Para resolver isso, desenvolvi esta aplicação Full Stack em Python. O que antes levava horas, agora é resolvido em segundos, com extração automática via Regex, validação de dados e geração de relatórios prontos para uso.
+
+## 🏗️ Arquitetura do Projeto
+
+O projeto foi refatorado para seguir uma arquitetura modular e profissional, facilitando a manutenção e a escalabilidade. Abaixo está um diagrama que ilustra a estrutura da aplicação:
 
 ```mermaid
-%% Diagrama de Fluxo para o projeto extrator-pdf-streamlit
-%% Versão Ultra Segura - Corrigido por Gemini
-
 graph TD;
-    subgraph "Interface do Usuário (Navegador Web)"
-        A[Início: Usuário acessa a URL da aplicação] --> B["Clique em 'Faça o upload do seu arquivo'"];
-        B --> C[/Upload do Arquivo PDF/];
-        C --> D{Aguardando processamento...};
-        H --> I[Fim: Visualiza o texto extraído <br/> de cada página em seções separadas];
+    subgraph "Frontend (Streamlit)"
+        A[Usuário Acessa] --> B{Login / Senha};
+        B -- Sucesso --> C[Menu Principal];
+        C -->|Aba 1| D[Extrator de D.I.];
+        C -->|Page 3| E[Fechamento Aeronave];
+        C -->|Aba Contato| F[Reportar Bug];
     end
 
-    subgraph "Backend da Aplicação (Servidor Streamlit)"
-        C --> E[app.py recebe o arquivo PDF];
-        E --> F["PyPDF2 abre o documento <br/> e conta o número de páginas"];
-        F --> G{Loop: Para cada página no PDF...};
-        G --Página N--> H["Extrai o texto e o exibe <br/> dentro de um st.expander"];
-        G --Fim do Loop--> H;
+    subgraph "Backend (Python Modules)"
+        D -->|Upload PDF| G[modules/pdf_extractor.py];
+        E -->|Upload PDF| G;
+        F -->|Mensagem| H[modules/telegram_bot.py];
+    end
+
+    subgraph "Processamento & Saída"
+        G -->|PyMuPDF + Regex| I{Extração de Dados};
+        I --> J[DataFrame Pandas];
+        J --> K[Download Excel .xlsx];
+        H --> L[API Telegram];
     end
 ```
 
 ![Demonstração da Aplicação](demonstracao.gif) 
 
-## ✨ Funcionalidades
+## ✨ Funcionalidades Principais
+- 🔐 Controle de Acesso: Sistema de login simples via st.secrets para proteger a ferramenta.
 
--   **Otimização de Tempo:** Transforma uma tarefa de um dia inteiro em um processo de segundos.
--   **Upload Múltiplo:** Faça o upload de um ou vários arquivos PDF de uma só vez.
--   **Extração Inteligente:** Utiliza expressões regulares (Regex) para encontrar e extrair dados específicos dos documentos, como "D.I.", "Nome do Processo", "INVOICE" e "HAWB".
--   **Visualização Instantânea:** Os dados extraídos são exibidos em uma tabela interativa na própria aplicação.
--   **Download Fácil:** Com um único clique, baixe o relatório completo e consolidado em formato `.xlsx` (Excel).
--   **Interface Amigável:** Criada com Streamlit para ser intuitiva e fácil de usar, mesmo para pessoas sem conhecimento técnico.
+### 📄 Múltiplos Tipos de Documentos:
+
+-  Declaração de Importação (D.I.): Extrai número da D.I., Processo, Invoice e HAWB.
+
+- Fechamento de Aeronave: Extrai Processo, Matrícula da Aeronave, Invoice e HAWB.
+
+- regex 🧠 Extração Inteligente: Uso de expressões regulares avançadas para localizar dados mesmo em layouts variados.
+
+### 🐞 Reporte de Bugs: 
+- Integração direta com Telegram para envio de logs e feedback de erros em tempo real.
+
+## 📂 Organização Modular: 
+- Código separado em módulos de responsabilidade única (modules, utils, assets).
+
+```text
+extrator-pdf-streamlit/
+├── .streamlit/          # Configurações locais (secrets.toml)
+├── assets/              # Imagens, logos e arquivos estáticos (gifs)
+├── components/          # Componentes visuais (Abas do menu principal)
+│   ├── __init__.py
+│   ├── tab_contato.py
+│   ├── tab_instrucoes.py
+│   └── tab_processamento.py
+├── data/                # Dados do projeto
+│   └── samples/         # PDFs de exemplo (anonimizados)
+├── modules/             # Lógica de negócio (Core do sistema)
+│   ├── __init__.py
+│   ├── pdf_extractor.py # Motor de extração (PyMuPDF + Regex + Caching)
+│   └── telegram_bot.py  # Integração com API do Telegram
+├── pages/               # Páginas extras do Streamlit
+│   └── 3_fechamento_aeronave.py
+├── tests/               # Testes automatizados (Quality Assurance)
+│   ├── __init__.py
+│   └── test_regex.py    # Testes unitários das expressões regulares
+├── utils/               # Ferramentas auxiliares
+│   ├── __init__.py
+│   └── anonimizar_pdfs.py
+├── .gitignore           # Arquivos ignorados pelo Git
+├── app.py               # Arquivo principal (Gerenciador da aplicação)
+└── requirements.txt     # Lista de bibliotecas e versões
+```
 
 ## ⚙️ Tecnologias Utilizadas
+- Python 3.10+
 
--   **Python:** A linguagem base do projeto.
--   **Streamlit:** Para a criação da interface web interativa.
--   **Pandas:** Para a estruturação e manipulação dos dados.
--   **PyMuPDF (fitz):** Para a leitura e extração de texto dos arquivos PDF.
--   **XlsxWriter:** Motor para a criação do arquivo Excel final.
+- Streamlit: Interface web interativa.
 
-## 👨‍💻 Como Usar a Aplicação Online
+- PyMuPDF (fitz): Leitura de alta performance de PDFs.
 
-1.  **Acesse a aplicação** através do link: [https://extrator-pdf-aero.streamlit.app/](https://extrator-pdf-aero.streamlit.app/)
-2.  **Faça o upload dos arquivos:** Clique no botão "Browse files" e selecione todos os arquivos PDF que deseja processar.
-3.  **Processe os dados:** Após o upload, clique no botão "▶️ Processar Arquivos e Gerar Relatório".
-4.  **Visualize e Baixe:** A tabela com os dados aparecerá na tela. Logo abaixo, clique no botão "📥 Baixar Relatório em Excel" para obter seu arquivo consolidado.
+- Pandas: Manipulação e estruturação de dados.
 
-## 🛠️ Configuração do Ambiente Local (Para Desenvolvedores)
+- XlsxWriter: Geração de arquivos Excel nativos.
 
-Se você quiser rodar este projeto na sua própria máquina para fazer modificações:
+- Requests: Comunicação com API do Telegram.
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/mulinco/extrator-pdf-streamlit.git](https://github.com/mulinco/extrator-pdf-streamlit.git)
-    cd extrator-pdf-streamlit
-    ```
+🛠️ Como Rodar Localmente
+Siga os passos abaixo para rodar a aplicação na sua máquina:
 
-2.  **Crie e ative um ambiente virtual** (recomendado):
-    ```bash
-    # Para Windows
-    python -m venv .venv
-    .\.venv\Scripts\activate
+Clone o repositório:
 
-    # Para macOS/Linux
-    python3 -m venv .venv
-    source .venv/bin/activate
-    ```
+```
+git clone [https://github.com/mulinco/extrator-pdf-streamlit.git](https://github.com/mulinco/extrator-pdf-streamlit.git)
+cd extrator-pdf-streamlit
+```
 
-3.  **Instale as dependências** a partir do arquivo `requirements.txt`:
-    ```bash
-    pip install -r requirements.txt
-    ```
+## Crie e ative um ambiente virtual:
+```
+python -m venv .venv
+```
+### Windows:
 
-4.  **Rode a aplicação Streamlit:**
-    ```bash
-    streamlit run app.py
-    ```
-    A aplicação abrirá automaticamente no seu navegador.
+```
+.\.venv\Scripts\activate
+```
 
-## 🔮 Possíveis Melhorias Futuras
+### Linux/Mac:
+```
+source .venv/bin/activate
+```
 
--   Melhorar as expressões regulares (Regex) para cobrir mais variações de layouts de PDF.
--   Adicionar suporte a arquivos PDF baseados em imagem, utilizando OCR (Optical Character Recognition) com bibliotecas como `pytesseract`.
--   Implementar uma opção para se conectar a uma pasta do Google Drive e processar os arquivos de lá.
--   Adicionar testes unitários para garantir a precisão da extração.
+### Instale as dependências:
+```
+pip install -r requirements.txt
+``` 
 
-## 📄 Licença
+**Configure os Segredos (Importante!):**
+    Crie uma pasta chamada `.streamlit` na raiz e um arquivo `secrets.toml` dentro dela:
 
-Distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais informações.
+```toml
+    # .streamlit/secrets.toml
+    APP_PASSWORD = "sua_senha_aqui"
+
+    [telegram]
+    BOT_TOKEN = "seu_token_do_bot"
+    CHAT_ID = "seu_chat_id"
+```
+
+Execute a aplicação:
+
+
+```
+streamlit run app.py
+```
+📄 Licença
+Distribuído sob a licença MIT. Veja o arquivo ```LICENSE``` para mais informações.
